@@ -27,7 +27,7 @@ class RequestSavingTest(TestCase):
         resp = self.client.get('/api')
 
         result = self._get_result(resp)
-        self.assertIsNotNone(result, 'result must contain content')
+        self.assertNotEquals(None, result, 'result must contain content')
 
     def test_redis_key_must_be_uuid(self):
         resp = self.client.get('/api')
@@ -51,7 +51,7 @@ class RequestSavingTest(TestCase):
 
     def test_save_get_params_as_none_if_there_is_no_querystring_and_method_is_post(self):
         resp = self.client.post('/api', data={'blah': 'blah'})
-        self.assertIsNone(json.loads(self._get_result(resp))['GET'])
+        self.assertEquals(None, json.loads(self._get_result(resp))['GET'])
 
     def test_save_raw_body_content(self):
         resp = self.client.post('/api', data='body content')
