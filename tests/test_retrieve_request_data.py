@@ -30,7 +30,7 @@ class RetrieveRequestDataTest(TestCase):
         self.redis.set(_id, '{"here": "I am"}')
 
         resp = self.client.get('/r/%s' % _id)
-        self.assertEquals({'here': 'I am'}, json.loads(resp.data))
+        self.assertEquals({'here': 'I am'}, json.loads(resp.data.decode('utf-8')))
 
     def test_return_404_if_data_doesnt_exist(self):
         resp = self.client.get('/r/abc')

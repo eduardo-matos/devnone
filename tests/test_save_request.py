@@ -16,8 +16,8 @@ class RequestSavingTest(TestCase):
         drop_redis(self.redis)
 
     def _get_result(self, response):
-        key = json.loads(response.data)['_id']
-        return self.redis.get(key)
+        key = json.loads(response.data.decode('utf-8'))['_id']
+        return self.redis.get(key).decode('utf-8')
 
     def test_response_must_be_json(self):
         resp = self.client.get('/api')
@@ -31,7 +31,7 @@ class RequestSavingTest(TestCase):
 
     def test_redis_key_must_be_uuid(self):
         resp = self.client.get('/api')
-        data = json.loads(resp.data)
+        data = json.loads(resp.data.decode('utf-8'))
 
         self.assertTrue(re.match(r'[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}', data['_id']),
                         'redis key not in expected format')

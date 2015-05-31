@@ -22,11 +22,12 @@ def api():
 
     get_params = request.args if request.method == 'POST' else request.form
 
+    now = datetime.utcnow().isoformat()
     redis_.set(key, json.dumps({'GET': get_params or None,
                                 'POST': request.form or None,
-                                'body': request.get_data(),
+                                'body': request.get_data().decode('utf-8'),
                                 'method': request.method,
-                                'date_created': datetime.utcnow().isoformat()}))
+                                'date_created': now}))
 
     return jsonify(_id=key)
 

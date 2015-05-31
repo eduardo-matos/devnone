@@ -1,3 +1,5 @@
 *.pyc
+.tox/
+devnone.egg-info/
 conf_local.py
 
