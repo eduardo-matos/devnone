@@ -7,4 +7,4 @@ python:
 services:
   - redis-server
 
-script: py.test
+script: tox
