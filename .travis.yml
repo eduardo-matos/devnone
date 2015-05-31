@@ -7,4 +7,7 @@ python:
 services:
   - redis-server
 
+install:
+  - "pip install -r requirements-dev.txt"
+
 script: tox
