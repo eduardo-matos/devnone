@@ -1,5 +1,6 @@
 from unittest import TestCase
 import json
+import re
 from mock import patch
 from datetime import datetime, tzinfo
 from devnone.app import app
@@ -32,7 +33,8 @@ class RequestSavingTest(TestCase):
         resp = self.client.get('/api')
         data = json.loads(resp.data)
 
-        self.assertRegexpMatches(data['_id'], r'[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}')
+        self.assertTrue(re.match(r'[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}', data['_id']),
+                        'redis key not in expected format')
 
     def test_save_get_params(self):
         resp = self.client.get('/api', data={'here': 'is', 'some': 'params'})
