@@ -17,7 +17,7 @@ def api():
 
 @app.route('/r/<slug>', methods=['GET'])
 def results(slug):
-    result = db.session.query(Request).filter(Request.slug==slug).first()
+    result = db.session.query(Request).filter(Request.slug == slug).first()
 
     if result:
         return Response(result.to_json(), content_type='application/json')
