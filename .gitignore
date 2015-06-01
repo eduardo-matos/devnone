@@ -2,4 +2,5 @@
 .tox/
 devnone.egg-info/
 conf_local.py
+.idea/
 
