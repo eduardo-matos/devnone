@@ -19,7 +19,7 @@ class RetrieveRequestDataTest(BaseTest):
         db.session.add(Request(slug=slug, method='post'))
         db.session.commit()
 
-        resp = self.client.get('/r/{}'.format(slug))
+        resp = self.client.get('/r/{0}'.format(slug))
         self.assertEquals('application/json', resp.headers['Content-type'])
 
     def test_return_full_response(self):
@@ -28,7 +28,7 @@ class RetrieveRequestDataTest(BaseTest):
         db.session.add(Request(slug=slug, get={'a': 1}, post={'b': 2}, body='c=3', method='post', date_created=now))
         db.session.commit()
 
-        resp = self.client.get('/r/{}'.format(slug))
+        resp = self.client.get('/r/{0}'.format(slug))
         self.assertEquals({'GET': {'a': 1}, 'POST': {'b': 2}, 'body': 'c=3',
                            'date_created': now.isoformat(), 'method': 'post'},
                           json.loads(resp.data.decode('utf-8')))
