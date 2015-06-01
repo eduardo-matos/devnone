@@ -1,13 +1,16 @@
-import redis
-from devnone.app import app
+from unittest import TestCase
+from devnone.app import app, db
 
 
-def create_redis():
-    redis_ = redis.StrictRedis(db=app.config['REDIS_DB'])
-    redis_.flushdb()
+def rebuild_schema():
+    if 'sqlite' in db.engine.url.drivername:
+        db.drop_all()
+        db.create_all()
+    else:
+        raise Exception('dont date to test in {}!'.format(db.engine.url.drivername))
 
-    return redis_
 
-
-def drop_redis(redis_):
-    redis_.flushdb()
+class BaseTest(TestCase):
+    def __call__(self, *args, **kwargs):
+        rebuild_schema()
+        return super(BaseTest, self).__call__(*args, **kwargs)
