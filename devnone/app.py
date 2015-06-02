@@ -1,4 +1,4 @@
-from flask import request, jsonify, abort, Response
+from flask import request, jsonify, abort, Response, render_template
 from . import app
 from .models import db, Request
 
@@ -23,6 +23,12 @@ def results(slug):
         return Response(result.to_json(), content_type='application/json')
 
     return abort(404)
+
+
+@app.route('/requests', methods=['GET'])
+def requests():
+    requests = db.session.query(Request).order_by(Request.date_created.desc()).limit(20)
+    return render_template('requests.html', requests=requests)
 
 
 if __name__ == '__main__':

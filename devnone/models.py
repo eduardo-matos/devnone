@@ -50,3 +50,9 @@ class Request(db.Model):
     def to_json(self):
         return json.dumps({'GET': self.get, 'POST': self.post, 'method': self.method, 'body': self.body,
                            'date_created': self.date_created.isoformat()})
+
+    def get_as_json(self):
+        return json.dumps(self.get)
+
+    def post_as_json(self):
+        return json.dumps(self.post)
