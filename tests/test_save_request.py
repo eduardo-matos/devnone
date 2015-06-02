@@ -6,9 +6,6 @@ from devnone.models import Request, db
 
 
 class RequestSavingTest(BaseTest):
-    def setUp(self):
-        self.client = app.test_client()
-
     def _get_result(self, response):
         key = json.loads(response.data.decode('utf-8'))['_id']
         return db.session.query(Request).filter(Request.slug==key).first()

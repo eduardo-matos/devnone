@@ -11,9 +11,6 @@ def _generate_uuid():
 
 
 class RetrieveRequestDataTest(BaseTest):
-    def setUp(self):
-        self.client = app.test_client()
-
     def test_response_is_json(self):
         slug = uuid4().hex
         db.session.add(Request(slug=slug, method='post'))

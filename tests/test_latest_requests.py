@@ -1,13 +1,9 @@
 from jinja2 import escape
-from devnone.app import app
 from devnone.models import Request, db
 from . import BaseTest
 
 
 class LatestRequestsTest(BaseTest):
-    def setUp(self):
-        self.client = app.test_client()
-
     def test_show_latest_requests(self):
         db.session.add_all((Request(method='get', get={'yay': 'wow'}, body='building'),
                             Request(method='post', post={'ham': 'spam'}, body='shop'),))
