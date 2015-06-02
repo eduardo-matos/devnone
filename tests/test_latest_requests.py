@@ -9,7 +9,7 @@ class LatestRequestsTest(BaseTest):
                             Request(method='post', post={'ham': 'spam'}, body='shop'),))
         db.session.flush()
 
-        resp = self.client.get('/requests').data.decode('utf-8')
+        resp = self.client.get('/').data.decode('utf-8')
 
         self.assertTrue(escape('{"yay": "wow"}') in resp, '\'{"yay": "wow"}\' not found in response')
         self.assertTrue(escape('{"ham": "spam"}') in resp, '\'{"ham": "spam"}\' not found in response')
@@ -23,10 +23,10 @@ class LatestRequestsTest(BaseTest):
             db.session.add(Request(method='get', body='building'))
         db.session.flush()
 
-        resp = self.client.get('/requests').data.decode('utf-8')
+        resp = self.client.get('/').data.decode('utf-8')
         self.assertEquals(20, resp.count('building'))
 
     def test_show_message_if_there_are_no_requests(self):
-        resp = self.client.get('/requests').data.decode('utf-8')
+        resp = self.client.get('/').data.decode('utf-8')
         self.assertTrue('Unbelievable! No requests so far!' in resp,
                         '\'Unbelievable! No requests so far!\' not found in response')

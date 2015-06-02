@@ -25,7 +25,7 @@ def results(slug):
     return abort(404)
 
 
-@app.route('/requests', methods=['GET'])
+@app.route('/', methods=['GET'])
 def requests():
     requests = db.session.query(Request).order_by(Request.date_created.desc()).limit(20)
     return render_template('requests.html', requests=requests)
