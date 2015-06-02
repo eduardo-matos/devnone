@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from datetime import datetime
 from mock import patch
 from jinja2 import escape
@@ -45,7 +47,12 @@ class LatestRequestsTest(BaseTest):
         db.session.flush()
 
         resp = self.client.get('/').data.decode('utf-8')
-        self.assertTrue(escape('curl -X POST http://b.co/r?yay=wow&pop=not --data "ham=spam&sam=mam"') in resp,
+
+        # we have to test all possible querystring combinations ¯\_(ツ)_/¯
+        self.assertTrue(escape('curl -X POST http://b.co/r?yay=wow&pop=not --data "ham=spam&sam=mam"') in resp or
+                        escape('curl -X POST http://b.co/r?pop=not&yay=wow --data "ham=spam&sam=mam"') in resp or
+                        escape('curl -X POST http://b.co/r?yay=wow&pop=not --data "sam=mam&ham=spam"') in resp or
+                        escape('curl -X POST http://b.co/r?pop=not&yay=wow --data "sam=mam&ham=spam"') in resp,
                         'curl not found in response')
 
     def test_dont_show_question_mark_in_curl_url_if_request_doesnt_have_get_params(self):
@@ -53,7 +60,8 @@ class LatestRequestsTest(BaseTest):
         db.session.flush()
 
         resp = self.client.get('/').data.decode('utf-8')
-        self.assertTrue(escape('curl -X POST http://b.co/r --data "ham=spam&sam=mam"') in resp,
+        self.assertTrue(escape('curl -X POST http://b.co/r --data "ham=spam&sam=mam"') in resp or
+                        escape('curl -X POST http://b.co/r --data "sam=mam&ham=spam"') in resp,
                         'curl not found in response')
 
     def test_show_request_body_in_curl_if_post_is_none_and_body_is_not_empty(self):
@@ -61,5 +69,4 @@ class LatestRequestsTest(BaseTest):
         db.session.flush()
 
         resp = self.client.get('/').data.decode('utf-8')
-        self.assertTrue(escape('curl -X POST http://b.co/r --data "building"') in resp,
-                        'curl not found in response')
+        self.assertTrue(escape('curl -X POST http://b.co/r --data "building"') in resp, 'curl not found in response')
