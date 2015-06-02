@@ -1,3 +1,4 @@
+from datetime import datetime
 from mock import patch
 from jinja2 import escape
 from devnone.app import app
@@ -8,8 +9,10 @@ from . import BaseTest
 @patch.dict(app.config, {'BASE_URL': 'http://b.co'})
 class LatestRequestsTest(BaseTest):
     def test_show_latest_requests(self):
-        db.session.add_all((Request(method='get', get={'yay': 'wow'}, body='building'),
-                            Request(method='post', post={'ham': 'spam'}, body='shop'),))
+        db.session.add_all((Request(method='get', get={'yay': 'wow'}, body='building',
+                                    date_created=datetime(2003, 11, 15, 23, 4, 1)),
+                            Request(method='post', post={'ham': 'spam'}, body='shop',
+                                    date_created=datetime(2019, 2, 1, 9, 1, 17)),))
         db.session.flush()
 
         resp = self.client.get('/').data.decode('utf-8')
@@ -20,6 +23,8 @@ class LatestRequestsTest(BaseTest):
         self.assertTrue('building' in resp, '\'building\' not found in response')
         self.assertTrue('get' in resp, '\'get\' not found in response')
         self.assertTrue('post' in resp, '\'post\' not found in response')
+        self.assertTrue('2003-11-15 23:04:01' in resp, 'creation date not found in response')
+        self.assertTrue('2019-02-01 09:01:17' in resp, 'creation date not found in response')
 
     def test_limit_20_requests(self):
         for i in range(21):
