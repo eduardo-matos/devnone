@@ -9,10 +9,17 @@
     <ol class="list-group">
         {% for request in requests %}
             <li class="list-group-item">
-                {{ request.method }}<br>
-                {{ request.get_as_json() }}<br>
-                {{ request.post_as_json() }}<br>
-                {{ request.body }}
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Method:</strong> {{ request.method }}</li>
+                    <li class="list-group-item"><strong>GET:</strong> {{ request.get_as_json() }}</li>
+                    <li class="list-group-item"><strong>POST:</strong> {{ request.post_as_json() }}</li>
+                    <li class="list-group-item"><strong>Body:</strong> {{ request.body }}</li>
+                    <li class="list-group-item"><strong>Info:</strong> <a href="{{ url_for('results', slug=request.slug) }}">{{ request.slug }}</a></li>
+                    <li class="list-group-item">
+                        <strong>cURL:</strong>
+                        <code>curl -X {{ request.method.upper() }} {{ config.BASE_URL }}/r{% if request.get %}?{{ request.get_encoded() }}{% endif %} --data &#34;{% if request.post %}{{ request.post_encoded() }}{% else %}{{ request.body }}{% endif %}&#34;</code>
+                    </li>
+                </ul>
             </li>
         {% else %}
             <li class="list-group-item"><em>Unbelievable! No requests so far!</em></li>

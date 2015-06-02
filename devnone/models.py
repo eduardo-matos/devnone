@@ -7,6 +7,12 @@ from sqlalchemy.dialects import postgresql
 from . import app
 
 
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
+
+
 db = SQLAlchemy(app)
 
 
@@ -56,3 +62,11 @@ class Request(db.Model):
 
     def post_as_json(self):
         return json.dumps(self.post)
+
+    def get_encoded(self):
+        if self.get:
+            return urlencode(self.get)
+
+    def post_encoded(self):
+        if self.post:
+            return urlencode(self.post)
