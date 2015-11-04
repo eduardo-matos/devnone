@@ -15,14 +15,14 @@
             <li class="list-group-item">
                 <ul class="list-group">
                     <li class="list-group-item"><strong>Method:</strong> {{ request.method }}</li>
-                    <li class="list-group-item"><strong>GET:</strong> {{ request.get_as_json() }}</li>
-                    <li class="list-group-item"><strong>POST:</strong> {{ request.post_as_json() }}</li>
+                    <li class="list-group-item"><strong>GET:</strong> {{ request.get|safe_json }}</li>
+                    <li class="list-group-item"><strong>POST:</strong> {{ request.post|safe_json }}</li>
                     <li class="list-group-item"><strong>Body:</strong> {{ request.body }}</li>
                     <li class="list-group-item"><strong>Info:</strong> <a href="{{ url_for('results', slug=request.slug) }}">{{ request.slug }}</a></li>
                     <li class="list-group-item"><strong>Created at:</strong> {{ request.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</li>
                     <li class="list-group-item">
                         <strong>cURL:</strong>
-                        <code>curl -X {{ request.method.upper() }} {{ config.BASE_URL }}/r{% if request.get %}?{{ request.get_encoded() }}{% endif %} --data &#34;{% if request.post %}{{ request.post_encoded() }}{% else %}{{ request.body }}{% endif %}&#34;</code>
+                        <code>curl -X {{ request.method.upper() }} {{ config.BASE_URL }}/r{% if request.get %}?{{ request.get|urlencode }}{% endif %} --data &#34;{% if request.post %}{{ request.post|urlencode }}{% else %}{{ request.body }}{% endif %}&#34;</code>
                     </li>
                 </ul>
             </li>
