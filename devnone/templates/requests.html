@@ -1,3 +1,5 @@
+{% from '_paginator.html' import button_paginator %}
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -6,8 +8,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 </head>
 <body>
+    {{ button_paginator(paginator=requests_paginator) }}
+
     <ol class="list-group">
-        {% for request in requests %}
+        {% for request in requests_paginator.items %}
             <li class="list-group-item">
                 <ul class="list-group">
                     <li class="list-group-item"><strong>Method:</strong> {{ request.method }}</li>
@@ -26,5 +30,7 @@
             <li class="list-group-item"><em>Unbelievable! No requests so far!</em></li>
         {% endfor %}
     </ol>
+
+    {{ button_paginator(paginator=requests_paginator) }}
 </body>
 </html>

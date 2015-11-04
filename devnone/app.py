@@ -25,10 +25,11 @@ def results(slug):
     return abort(404)
 
 
-@app.route('/', methods=['GET'])
-def requests():
-    requests = db.session.query(Request).order_by(Request.date_created.desc()).limit(20)
-    return render_template('requests.html', requests=requests)
+@app.route('/', defaults={'page': 1})
+@app.route('/<int:page>', methods=['GET'])
+def requests(page):
+    paginator = Request.query.order_by(Request.date_created.desc()).paginate(page, per_page=20)
+    return render_template('requests.html', requests_paginator=paginator)
 
 
 if __name__ == '__main__':
