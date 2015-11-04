@@ -11,7 +11,7 @@ except ImportError:
 
 setup(
     name='devnone',
-    version='0.0.1',
+    version='0.0.2',
     description='',
     long_description='',
     author='Eduardo Matos',
