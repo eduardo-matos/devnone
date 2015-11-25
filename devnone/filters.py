@@ -1,12 +1,17 @@
 import json
-import urllib
 from jinja2 import escape
 from . import app
 
 
+try:
+    from urllib import urlencode as py_urlencode
+except ImportError:
+    from urllib.parse import urlencode as py_urlencode
+
+
 @app.template_filter()
 def urlencode(query):
-    return urllib.urlencode(query) if query else ''
+    return py_urlencode(query) if query else ''
 
 
 @app.template_filter()
