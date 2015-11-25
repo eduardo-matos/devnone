@@ -12,7 +12,8 @@ else:
     app.config.from_object('devnone.conf_dev')
 
 # logging
-handler = RotatingFileHandler(os.path.join(os.path.dirname(__file__), 'logs', 'devnone.log'), backupCount=10)
+handler = RotatingFileHandler(os.path.join(os.path.dirname(__file__), 'logs', 'devnone.log'), backupCount=10,
+                              maxBytes=10 * 1024 * 1024)
 handler.setLevel(logging.INFO)
 handler.setFormatter(logging.Formatter('{"%(levelname)s":"%(asctime)s", '
                                        '"%(funcName)s":%(lineno)d, "%(threadName)s":"%(message)s"}'))

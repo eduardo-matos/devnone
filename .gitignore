@@ -4,4 +4,4 @@ devnone.egg-info/
 conf_local.py
 .idea/
 dist/
-devnone/logs/
+devnone/logs/*.log
