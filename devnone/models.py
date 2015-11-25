@@ -7,12 +7,6 @@ from sqlalchemy.dialects import postgresql
 from . import app
 
 
-try:
-    from urllib import urlencode
-except ImportError:
-    from urllib.parse import urlencode
-
-
 db = SQLAlchemy(app)
 
 

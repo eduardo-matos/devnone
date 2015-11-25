@@ -1,5 +1,6 @@
 from flask import request, jsonify, abort, Response, render_template
-from . import app, filters
+from . import app
+from . import filters  # NOQA
 from .models import db, Request
 
 
